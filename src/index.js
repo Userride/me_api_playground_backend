@@ -14,10 +14,19 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") || "*" }));
 
+// --- NEW WELCOME ROUTE ---
+// This new route handles requests to the base URL.
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the Me-API Playground!",
+    status: "running",
+    documentation: "Please refer to the project README for API endpoints.",
+  });
+});
+
 // This route remains at the root level for simple health checks.
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 
-// --- CORRECTED LINE ---
 // All routes from your 'routes/index.js' file will now start with /api.
 // e.g., /profile becomes /api/profile
 app.use("/api", router);
